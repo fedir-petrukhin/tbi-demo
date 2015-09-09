@@ -1,0 +1,121 @@
+/* Empty. Add your own CSS if you like */
+
+.pane, .view {
+    background-image: url("../img/bg.jpg");
+}
+
+h1, h5 {
+ text-align: center;
+ font-weight: bold;
+}
+
+.steps {
+ font-size: 2em;
+ line-height: 1.5em;
+}
+
+.bar.bar-balanced .title {
+ font-weight: bold;
+}
+
+.group-label {
+ color: #444;
+ font-size: 16px;
+}
+
+.clear-button {
+ color: #FFF !important;
+ padding: 0px 20px;
+ position: absolute;
+ right: 0px; top: 0px;
+}
+
+.cam-button {
+ min-height: 24px !important;
+ min-width: 24px !important;
+ line-height: 24px !important;
+ padding: 0px;
+}
+
+.thumbnail {
+ min-height: 1em;
+}
+
+.item {
+ border-style: none;
+    background-color: inherit;
+}
+
+.item-input {
+ padding: 2px 0px;
+}
+
+.item-input-wrapper ~ .button {
+  margin-left: 5px;
+}
+
+span.input-label {
+ line-height: 2em;
+ padding-left: 1em;
+}
+
+.instructions {
+ font-family: 'Helvetica Neue', Roboto, sans-serif;
+ color: #444;
+}
+
+span.item-label {
+}
+
+label.item-input-inset, span.item-input-inset {
+ padding-bottom: 4px;
+ padding-top: 4px;
+}
+
+.bar-subheader {
+    height: 20px;
+}
+
+.item-select select {
+   background-color: transparent;
+}
+
+.select-wrapper {
+   height: 2em;
+}
+
+textarea {
+ min-height: 3em !important;
+ background-color: inherit !important;
+}
+
+#initmap {
+    display: none;
+}
+
+.yes-no {
+ max-width: 120px !important;
+ padding: 2px !important;
+}
+
+.sms-email {
+ max-width: 160px !important;
+ padding: 2px !important;
+}
+
+.yes-no-add {
+ max-width: 180px !important;
+ padding: 2px !important;
+}
+
+.item-subheader {
+ padding: 4px 10px;
+ background-color: #444444;
+ color: white;
+ text-align: center;
+ font-weight: normal;
+ border-top: 1px solid gray;
+}
+
+
+

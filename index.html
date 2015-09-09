@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+    <script src="lib/ionic/js/angular-resource.min.js"></script>
+    <script src="lib/ngCordova/dist/ng-cordova.js"></script>
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyALnQD01bMsm818-jKYiYTz9vqbRI3IrYc&sensor=false"></script>
+    <!-- your app's js -->
+    <script src="js/app.js"></script>
+<!--
+    <script src="js/services.js"></script>
+-->
+
+</head>
+
+<body ng-app="starter">
+
+<ion-nav-bar class="bar-dark" align-title="center">
+</ion-nav-bar>
+
+<ion-nav-view class="slide-left-right">
+</ion-nav-view>
+
+<!--<div data-tap-disabled="true">
+<div id="initmap"></div>
+</div>-->
+
+<script id="page0.html" type="text/ng-template">
+    <ion-view title="Consumer application" hide-back-button="true">
+        <ion-content class="padding">
+            <div class="card-inset padding dark" style="text-align: center">
+                <img style="max-width: 200px !important" src="img/logo.png"/>
+                <!--<h1></h1>
+                <h6>v1.0.0 (07.09.2015)</h6>-->
+            </div>
+            <div class="card-inset" style="text-align: center">
+                <a class="button button-dark icon-left ion-cash button-block" ui-sref="page1">Cash Loan</a>
+                <a class="button button-dark icon-left ion-bag button-block disabled" ui-sref="page1">Consumer Loan</a>
+                <a class="button button-dark icon-left ion-clock button-block disabled" ui-sref="page1">Deposit</a>
+                <a class="button button-dark icon-left ion-card button-block disabled" ui-sref="page1">Credit card</a>
+                <a class="button button-dark icon-left ion-card button-block disabled" ui-sref="page1">Debit card</a>
+            </div>
+        </ion-content>
+    </ion-view>
+</script>
+
+<!--<script id="page2map.html" type="text/ng-template">
+    <ion-modal-view>
+        <ion-header-bar>
+            <h1 class="title">Location</h1>
+            <div class="button button-clear icon-right" ng-click="mapModal.hide()"><span class="icon ion-android-close"></span></div>
+        </ion-header-bar>
+        <ion-content has-header="true" padding="true">
+                <div id="map_canvas" style="width:100% !important;height: 400px !important"></div>
+        </ion-content>
+    </ion-modal-view>
+</script>-->
+
+<script id="image-preview.html" type="text/ng-template">
+    <ion-modal-view>
+        <ion-header-bar>
+            <h1 class="title">{{report.imageTitle}}</h1>
+            <div class="button button-clear icon-right" ng-click="imageModal.hide()"><span class="icon ion-android-close"></span></div>
+        </ion-header-bar>
+        <ion-content has-header="true" padding="true">
+            <img ng-show="report.imageURI !== undefined" ng-src="{{report.imageURI}}">
+        </ion-content>
+    </ion-modal-view>
+</script>
+
+<script id="page1.html" type="text/ng-template">
+    <ion-view title="Cash loan application form" class="light">
+        <ion-nav-buttons side="left">
+            <a class="button button-clear ion-android-arrow-back icon-left" ui-sref="page0"></a>
+        </ion-nav-buttons>
+        <ion-nav-buttons side="right">
+            <a class="button button-clear ion-android-arrow-forward icon-right" ui-sref="page2"></a>
+        </ion-nav-buttons>
+        <ion-content>
+            <form id="formIdentification" name="formIdentification" ng-submit="moveFocus()">
+            <div class="list">
+                <span class="item item-inset item-subheader">1.1 Personal data<!--<a class="button button-clear button-small ion-close-circled icon-right clear-button" ng-click="resetSection(2)">reset</a>--></span>
+                <span class="item item-input-inset item-stacked-label">
+                    <span class="item-label">Name</span>
+                    <span class="item-input item-input-wrapper">
+                        <input id="name" name="name" type="text" tabindex="1" ng-enter="moveFocus()" ng-model="report.name"/>
+                    </span>
+                </span>
+                <label class="item item-input-inset item-stacked-label">
+                    <span class="item-label">Date of birth</span>
+                    <span class="item-input item-input-wrapper">
+                        <input type="date" ng-model="report.dateOfBirth" tabindex="2" id="dateOfBirth" name="dateOfBirth" ng-enter="moveFocus()">
+                    </span>
+                </label>
+                <!--<ion-checkbox ng-model="report.isDriverAtTimeOfIncident" class="checkbox-balanced">Driver at time of incident</ion-checkbox>-->
+                <span class="item item-input-inset item-stacked-label">
+                    <span class="item-label">Address</span>
+                    <span class="item-input item-input-wrapper">
+                        <textarea id="driverAddress" name="address" type="text" tabindex="3" ng-model="report.address"></textarea>
+                    </span>
+                </span>
+                <span class="item item-input-inset item-stacked-label">
+                    <span class="item-label">Telephone number</span>
+                    <span class="item-input item-input-wrapper">
+                        <input id="telephone" name="telephone" type="tel" tabindex="4" ng-enter="moveFocus()" ng-model="report.telephoneNumber"/>
+                    </span>
+                </span>
+                <span class="item item-input-inset item-stacked-label">
+                    <span class="item-label">Passport no.</span>
+                    <span class="item-input">
+                        <span class="item-input-wrapper">
+                            <input id="passport" name="passport" type="text" ng-model="report.passport" tabindex="5" ng-enter="moveFocus()"/>
+                        </span>
+                        <button type="button" id="passportPhoto" class="button cam-button button-clear button-dark ion-android-attach" ng-show="report.passportPhoto" ng-click="showPicture('Passport',report.passportPhoto)"></button>
+                        <button type="button" class="button cam-button button-clear button-dark ion-android-camera" ng-click="takePicture('passportPhoto')"></button>
+                    </span>
+                </span>
+                <span class="item item-input-inset item-stacked-label">
+                    <span class="item-label">Other documents (e.g. other IDs)</span>
+                    <span class="item-input">
+                        <span class="item-input-wrapper">
+                            <input id="otherDocuments" name="otherDocuments" type="text" ng-model="report.otherDocuments" tabindex="6" ng-enter="moveFocus()"/>
+                        </span>
+                        <button type="button" id="otherDocumentsPhoto" class="button cam-button button-clear button-dark ion-android-attach" ng-show="report.otherDocumentsPhoto" ng-click="showPicture('Other documents',report.otherDocumentsPhoto)"></button>
+                        <button type="button" class="button cam-button button-clear button-dark ion-android-camera" ng-click="takePicture('otherDocumentsPhoto')"></button>
+                    </span>
+                </span>
+                <span class="item item-input-inset item-stacked-label">
+                    <span class="input-label">Marital status </span>
+                </span>
+                <label class="item item-input-inset item-select">
+                    <label class="item-input-wrapper select-wrapper">
+                        <select ng-model="report.maritalStatus" tabindex="7">
+                            <option>Single</option>
+                            <option>Married</option>
+                            <option>Diversed</option>
+                        </select>
+                    </label>
+                </label>
+                <label class="item item-input-inset item-stacked-label">
+                    <span class="item-label">Children</span>
+                    <span class="item-input item-input-wrapper">
+                        <input type="text" placeholder="0" ng-model="report.kids" id="kids" tabindex="8" name="kids" ng-enter="moveFocus()">
+                    </span>
+                </label>
+                <span class="item item-inset item-subheader">1.2 Spouse's data <!--<a class="button button-clear button-small ion-close-circled icon-right clear-button" ng-click="resetSection(3)">reset</a>--></span>
+                <!--<ion-checkbox ng-model="report.isExtraDriverAtTimeOfIncident" class="checkbox-balanced">Driver at time of incident</ion-checkbox>-->
+                <span class="item item-input-inset item-stacked-label">
+                    <span class="item-label">Name</span>
+                    <span class="item-input item-input-wrapper">
+                        <input id="spouseName" name="spouseName" type="text" tabindex="9" ng-enter="moveFocus()" ng-model="report.spouseName"/>
+                    </span>
+                </span>
+                <label class="item item-input-inset item-stacked-label">
+                    <span class="item-label">Date of birth</span>
+                    <span class="item-input item-input-wrapper">
+                        <input type="date" ng-model="report.spouseDateOfBirth" tabindex="10" id="spouseDateOfBirth" name="spouseDateOfBirth" ng-enter="moveFocus()">
+                    </span>
+                </label>
+                <span class="item item-input-inset item-stacked-label">
+                    <span class="item-label">Address</span>
+                    <span class="item-input item-input-wrapper">
+                        <textarea id="spouseAddress" name="spouseAddress" type="text" tabindex="11" ng-model="report.spouseAddress"></textarea>
+                    </span>
+                </span>
+                <span class="item item-input-inset item-stacked-label">
+                    <span class="item-label">Telephone number</span>
+                    <span class="item-input item-input-wrapper">
+                        <input id="spouseTelephoneNumber" name="spouseTelephoneNumber" type="tel" tabindex="12" ng-enter="moveFocus()" ng-model="report.spouseTelephoneNumber"/>
+                    </span>
+                </span>
+                <span class="item item-input-inset item-stacked-label">
+                    <span class="item-label">Passport no.</span>
+                    <span class="item-input">
+                        <span class="item-input-wrapper">
+                            <input id="spousePassport" name="spousePassport" type="text" ng-model="report.spousePassport" tabindex="13" ng-enter="moveFocus()"/>
+                        </span>
+                        <button type="button" id="spousePassportPhoto" class="button cam-button button-clear button-dark ion-android-attach" ng-show="report.spousePassportPhoto" ng-click="showPicture('Passport',report.spousePassportPhoto)"></button>
+                        <button type="button" class="button cam-button button-clear button-dark ion-android-camera" ng-click="takePicture('spousePassportPhoto')"></button>
+                    </span>
+                </span>
+                <span class="item item-input-inset item-stacked-label">
+                    <span class="item-label">Other documents (e.g. other IDs)</span>
+                    <span class="item-input">
+                        <span class="item-input-wrapper">
+                            <input id="spouseOtherDocuments" name="spouseOtherDocuments" type="text" ng-model="report.spouseOtherDocuments" tabindex="14" ng-enter="moveFocus()"/>
+                        </span>
+                        <button type="button" id="spouseOtherDocumentsPhoto" class="button cam-button button-clear button-dark ion-android-attach" ng-show="report.spouseOtherDocumentsPhoto" ng-click="showPicture('Other documents',report.spouseOtherDocumentsPhoto)"></button>
+                        <button type="button" class="button cam-button button-clear button-dark ion-android-camera" ng-click="takePicture('spouseOtherDocumentsPhoto')"></button>
+                    </span>
+                </span>
+            </div>
+            </form>
+        </ion-content>
+    </ion-view>
+</script>
+
+<script id="page2.html" type="text/ng-template">
+    <ion-view title="Cash loan application form" afterEnter="">
+        <ion-nav-buttons side="left">
+            <a class="button button-clear ion-android-arrow-back icon-left" ui-sref="page1"></a>
+        </ion-nav-buttons>
+        <ion-nav-buttons side="right">
+            <a class="button button-clear ion-android-arrow-forward icon-right" ui-sref="page3"></a>
+        </ion-nav-buttons>
+        <ion-content>
+            <form id="formLocation" name="formLocation" ng-submit="moveFocus()">
+            <div class="list">
+                <!--<div class="padding card-inset" class="instructions">
+                    <span>Drag the red pointer to the location of incident</span>
+                </div>
+                <div class="padding card-inset" ng-show="googleMailErrors" class="instructions">
+                    <span>{{googleMailErrors}}</span>
+                </div>
+                <div class="padding" data-tap-disabled="true">
+                    <div id="map_canvas" style="width:100% !important;height: 300px !important"></div>
+                </div>-->
+                <span class="item item-input-inset item-stacked-label">
+                    <span class="item-label">Loan amoun</span>
+                    <span class="item-input">
+                        <label class="item-input-wrapper">
+                            <input id="amount" name="amount" ng-model="report.amount" type="text" tabindex="1" ng-enter="moveFocus()">
+                        </label>
+                    </span>
+                </span>
+                <span class="item item-inset item-subheader">2.1 Incomes</span>
+                <span class="item item-input-inset item-stacked-label">
+                    <span class="item-label">Primary income (per month)</span>
+                    <span class="item-input">
+                        <label class="item-input-wrapper">
+                            <input id="primaryIncome" name="primaryIncome" ng-model="report.primaryIncome" type="text" tabindex="2" ng-enter="moveFocus()">
+                        </label>
+                    </span>
+                </span>
+                <span class="item item-input-inset item-stacked-label">
+                    <span class="item-label">Primary income description</span>
+                    <span class="item-input">
+                        <label class="item-input-wrapper">
+                            <textarea id="primaryIncomeDescription" name="primaryIncomeDescription" type="text" tabindex="3" ng-model="report.primaryIncomeDescription"></textarea>
+                        </label>
+                    </span>
+                </span>
+                <span class="item item-input-inset item-stacked-label">
+                    <span class="item-label">Alternative income (per month)</span>
+                    <span class="item-input">
+                        <label class="item-input-wrapper">
+                            <input id="alternativeIncome" name="alternativeIncome" ng-model="report.alternativeIncome" type="text" tabindex="4" ng-enter="moveFocus()">
+                        </label>
+                    </span>
+                </span>
+                <span class="item item-input-inset item-stacked-label">
+                    <span class="item-label">Alternative income description</span>
+                    <span class="item-input">
+                        <label class="item-input-wrapper">
+                            <textarea id="primaryIncomeDescription" name="alternativeIncomeDescription" type="text" tabindex="5" ng-model="report.alternativeIncomeDescription"></textarea>
+                        </label>
+                    </span>
+                </span>
+                <span class="item item-inset item-subheader">2.2 Expenses</span>
+                <span class="item item-input-inset item-stacked-label">
+                    <span class="item-label">Expenses (per month)</span>
+                    <span class="item-input">
+                        <label class="item-input-wrapper">
+                            <input id="expences" name="expences" ng-model="report.expences" type="text" tabindex="6" ng-enter="moveFocus()">
+                        </label>
+                    </span>
+                </span>
+            </div>
+            </form>
+        </ion-content>
+        <!--<ion-footer-bar class="bar-balanced">
+            <div class="buttons buttons-left">
+                <a class="button button-clear ion-android-arrow-back icon-left" ui-sref="page1"></a>
+            </div>
+            <div class="title" style="text-align: center">
+                <a class="button small-button button-balanced" ui-sref="page3" style="margin: 7px 7px;">Save</a>
+            </div>
+            <div class="buttons buttons-right">
+                <a class="button button-clear ion-android-arrow-forward icon-right" ui-sref="page3"></a>
+            </div>
+        </ion-footer-bar>-->
+    </ion-view>
+</script>
+
+<script id="page3.html" type="text/ng-template">
+    <ion-view title="Cash loan application form">
+        <ion-nav-buttons side="left">
+            <a class="button button-clear ion-android-arrow-back icon-left" ui-sref="page2"></a>
+        </ion-nav-buttons>
+        <ion-nav-buttons side="right">
+        </ion-nav-buttons>
+        <ion-content>
+            <form id="formDescription" name="formLocation" ng-submit="moveFocus()">
+            <div class="list">
+
+                <div class="card-inset">
+                    <span><p>{{report.name}}, you are applying for cash loan of {{report.amount}}. Duration is 12 months. The first instalment for the loan is due 35 days.</p> <br/><br/></span>
+                </div>
+
+                <div class="card-inset" style="text-align: center;">
+                    <span ng-show="report.wasSent" class="item-label"><p>Application form no. {{report.incidentNumber}} was sent.</p><p>You will receive SMS with further instructions in two days.</p></span>
+                    <a ng-show="!report.wasSent" class="button button-dark" ng-click="sendReport()" style="width: 120px;">Apply</a>
+                    <a ng-show="report.wasSent" class="button button-dark" ng-click="exitApp()" style="width: 120px;">Exit</a>
+                </div>
+            </div>
+            </form>
+        </ion-content>
+    </ion-view>
+</script>
+
+
+</body>
+</html>
